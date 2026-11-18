@@ -1,0 +1,12 @@
+# build output
+build/
+*.o
+*.elf
+*.iso
+iso_root/
+
+limine/
+
+# clangd
+.cache/
+compile_commands.json
