@@ -10,3 +10,7 @@ limine/
 # clangd
 .cache/
 compile_commands.json
+
+# Claude
+docs/
+CLAUDE.md
