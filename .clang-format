@@ -2,3 +2,5 @@ BasedOnStyle: LLVM
 IndentWidth: 4
 # Keep public:/private: flush with the class keyword (LLVM's -2 assumes 2-space indents)
 AccessModifierOffset: -4
+PointerAlignment: Left
+ReferenceAlignment: Pointer

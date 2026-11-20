@@ -36,12 +36,12 @@ void serialInit() {
     outByte(UART::COM1 + UART::IER, 0x00);
     // set DLAB: offsets 0/1 are now the divisor
     outByte(UART::COM1 + UART::LCR, UART::LCR_DLAB);
-    // divisor low byte = 3: 115200 / 3 = 38400 baud
-    outByte(UART::COM1 + UART::DATA, 0x03);
+    // divisor low byte = 3: 115200
+    outByte(UART::COM1 + UART::DATA, 0x01);
     // divisor high byte = 0
     outByte(UART::COM1 + UART::IER, 0x00);
     // 8N1, and clears DLAB so offsets 0/1 are DATA/IER again
-    outByte(UART::COM1 + UART::LCR, 0x01);
+    outByte(UART::COM1 + UART::LCR, 0x03);
     // enable FIFOs, clear both, interrupt threshold 14 bytes
     outByte(UART::COM1 + UART::FCR, 0xC7);
     // DTR (Data Terminal Ready) + RTS (Request To Send):
@@ -49,11 +49,17 @@ void serialInit() {
 }
 
 void serialWrite(const char c) {
-    while ((inByte(UART::COM1 + UART::LSR) & UART::LSR_THR_EMPTY) == 0) {}
+    while ((inByte(UART::COM1 + UART::LSR) & UART::LSR_THR_EMPTY) == 0) {
+    }
     outByte(UART::COM1 + UART::DATA, c);
-    
 }
 
-void serialWrite(const char *s) {
-    for (; *s; ++s) serialWrite(*s);
+void serialWrite(const char* s) {
+    for (; *s; ++s)
+        serialWrite(*s);
+}
+
+void serialPanic(const char *s) {
+    serialWrite(s);
+    halt();
 }
